@@ -18,7 +18,7 @@ function App() {
           {/* halaman details category membutuhkan slug */}
           <Route path='/category/:slug' element={<CategoryPage />} />
           {/* halaman details service membutuhkan slug */}
-          <Route path='/service/:slug' element={<DetailsPage />} />
+          <Route path='/homeService/:slug' element={<DetailsPage />} />
           <Route path='/myCart' element={<MyCartPage />} />
           <Route path='/payment' element={<PaymentPage />} />
           <Route path='/booking' element={<BookingPage />} />

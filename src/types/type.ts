@@ -8,8 +8,8 @@ export interface HomeService {
     is_popular: boolean,
     price: number,
     duration: number,
-    serviceBenefits: ServiceBenefit[], //type relasi
-    serviceTestimonials: ServiceTestimonial[], //type relasi
+    service_benefits: ServiceBenefit[], //type relasi
+    service_testimonials: ServiceTestimonial[], //type relasi
 }
 
 export interface Category {
@@ -19,7 +19,7 @@ export interface Category {
     photo: string,
     photo_white: string,
     home_services_count: number, //untuk limit
-    homeServices: HomeService[], //type relasi
+    home_services: HomeService[], //type relasi
     popular_services: HomeService[], //untuk is_popular
 }
 
@@ -53,7 +53,7 @@ export interface BookingTransaction {
     total_amount: number,
     total_tax_amount: number,
     is_paid: boolean,
-    transactionDetails: TransactionDetail[], //type relasi
+    transaction_details: TransactionDetail[], //type relasi
 }
 
 interface TransactionDetail {

@@ -70,7 +70,7 @@ const HomePage = () => {
 
     // JALANKAN STATE UNTUK ERROR JIKA TERDAPAT ERROR
     if (error) {
-        return <p>Error Loading Data : {error}</p>
+        return <p className='flex justify-center !mt-100'>Error Loading Data : {error}</p>
     }
 
     //BASE URL UNTUK STORAGE GAMBAR
