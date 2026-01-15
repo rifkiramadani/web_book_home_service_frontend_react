@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import type { Category } from "../types/type";
 import apiClient from "../services/apiServices";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -68,7 +68,7 @@ const CategoryPage = () => {
                             id="ContainerNav"
                             className="flex items-center justify-between py-[14px] transition-all duration-300"
                         >
-                            <a href="index.html">
+                            <Link to={'/'}>
                                 <div
                                     id="Back"
                                     className="flex h-[44px] w-[44px] shrink-0 items-center justify-center rounded-full bg-white"
@@ -79,14 +79,14 @@ const CategoryPage = () => {
                                         className="h-[22px] w-[22px] shrink-0"
                                     />
                                 </div>
-                            </a>
+                            </Link>
                             <h2
                                 id="Title"
                                 className="font-semibold text-white transition-all duration-300"
                             >
                                 Explore
                             </h2>
-                            <a href="#">
+                            <Link to={'/myCart'}>
                                 <div
                                     id="Cart"
                                     className="flex h-[44px] w-[44px] shrink-0 items-center justify-center rounded-full bg-white"
@@ -97,7 +97,7 @@ const CategoryPage = () => {
                                         className="h-[22px] w-[22px] shrink-0"
                                     />
                                 </div>
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </section>
@@ -130,7 +130,7 @@ const CategoryPage = () => {
                             {category.home_services.length > 0
                                 ? category.home_services.map((homeService) => (
                                     <SwiperSlide key={homeService.id} className="swiper-slide !w-fit">
-                                        <a href="service-details.html" className="card">
+                                        <Link to={`/homeService/${homeService.slug}`} className="card">
                                             <div className="relative flex w-[230px] shrink-0 flex-col gap-[12px] overflow-hidden rounded-[24px] border border-shujia-graylight bg-white p-4 transition-all duration-300 hover:border-shujia-orange">
                                                 <span className="absolute right-[26px] top-[26px] shrink-0 rounded-full bg-white px-2 py-[7px]">
                                                     <div className="flex items-center gap-[2px]">
@@ -179,7 +179,7 @@ const CategoryPage = () => {
                                                     />
                                                 </div>
                                             </div>
-                                        </a>
+                                        </Link>
                                     </SwiperSlide>
                                 )) : 'Belum Ada Data Home Service'}
 
@@ -201,7 +201,7 @@ const CategoryPage = () => {
                             {category.home_services.length > 0
                                 ? category.home_services.map((homeService) => (
                                     <SwiperSlide key={homeService.id} className="swiper-slide !w-fit">
-                                        <a href="service-details.html">
+                                        <Link to={`/homeService/${homeService.slug}`}>
                                             <div className="mx-5 flex gap-3 rounded-[24px] border border-shujia-graylight bg-white p-4 transition-all duration-300 hover:border-shujia-orange">
                                                 <div className="flex h-[101px] w-[120px] shrink-0 items-center justify-center overflow-hidden rounded-2xl">
                                                     <img
@@ -229,7 +229,7 @@ const CategoryPage = () => {
                                                     </strong>
                                                 </div>
                                             </div>
-                                        </a>
+                                        </Link>
                                     </SwiperSlide>
                                 )) : 'Belum Ada Data Home Service'}
 

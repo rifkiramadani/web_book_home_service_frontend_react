@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import type { CartItem, HomeService } from "../types/type"
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import apiClient from "../services/apiServices";
 import { Swiper, SwiperSlide } from 'swiper/react'
 
@@ -137,7 +137,7 @@ const DetailsPage = () => {
                                 ${isScrolled ? 'bg-white rounded-[22px] px-[16px] shadow-[0px_12px_20px_0px_#0305041C]' : ''}
                             `}
                         >
-                            <a href="category.html">
+                            <Link to={'/'}>
                                 <div
                                     id="Back"
                                     className={`flex h-[44px] w-[44px] shrink-0 items-center justify-center rounded-full bg-white
@@ -150,7 +150,7 @@ const DetailsPage = () => {
                                         className="h-[22px] w-[22px] shrink-0"
                                     />
                                 </div>
-                            </a>
+                            </Link>
                             <h2
                                 id="Title"
                                 className={`
@@ -159,7 +159,7 @@ const DetailsPage = () => {
                             >
                                 Details
                             </h2>
-                            <a href="#">
+                            <Link to={'/myCart'}>
                                 <div
                                     id="Cart"
                                     className={`flex h-[44px] w-[44px] shrink-0 items-center justify-center rounded-full bg-white
@@ -172,7 +172,7 @@ const DetailsPage = () => {
                                         className="h-[22px] w-[22px] shrink-0"
                                     />
                                 </div>
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 </section>

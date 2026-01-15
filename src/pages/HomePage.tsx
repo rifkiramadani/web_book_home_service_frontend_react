@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react'
 import type { Category, HomeService } from '../types/type';
 import apiClient from '../services/apiServices';
+import { Link } from 'react-router-dom';
 
 //fungsi untuk fetch api HomeServices dan Categories
 const fetchHomeServices = async () => {
@@ -110,7 +111,7 @@ const HomePage = () => {
                                     </a>
                                 </li>
                                 <li className="shrink-0">
-                                    <a href="#">
+                                    <Link to={'/myCart'}>
                                         <div className="flex h-[44px] w-[44px] shrink-0 items-center justify-center rounded-full border border-shujia-graylight">
                                             <img
                                                 src="assets/images/icons/cart.svg"
@@ -118,7 +119,7 @@ const HomePage = () => {
                                                 className="h-[22px] w-[22px] shrink-0"
                                             />
                                         </div>
-                                    </a>
+                                    </Link>
                                 </li>
                             </ul>
                         </div>
@@ -145,7 +146,7 @@ const HomePage = () => {
                             {categories.length > 0
                                 ? categories.map((category) => (
                                     <SwiperSlide key={category.id} className="swiper-slide !w-fit">
-                                        <a href="category.html" className="card">
+                                        <Link to={`/category/${category.slug}`} className="card">
                                             <div className="shrink-0 space-y-3 rounded-[24px] border border-x-shujia-graylight bg-white py-4 text-center transition-all duration-300 hover:border-shujia-orange">
                                                 <div className="mx-auto flex h-[70px] w-[70px] shrink-0 items-center justify-center overflow-hidden rounded-full">
                                                     <img
@@ -161,7 +162,7 @@ const HomePage = () => {
                                                     </p>
                                                 </div>
                                             </div>
-                                        </a>
+                                        </Link>
                                     </SwiperSlide>
                                 )) : 'Belum Ada Data Categories'}
                         </Swiper>
@@ -189,7 +190,7 @@ const HomePage = () => {
                                 {homeServices.length > 0
                                     ? homeServices.map((homeService) => (
                                         <SwiperSlide key={homeService.id} className="swiper-slide !w-fit">
-                                            <a href="service-details.html" className="card">
+                                            <Link to={`/homeService/${homeService.slug}`} className="card">
                                                 <div className="relative flex w-[230px] shrink-0 flex-col gap-[12px] overflow-hidden rounded-[24px] border border-shujia-graylight bg-white p-4 transition-all duration-300 hover:border-shujia-orange">
                                                     <span className="absolute right-[26px] top-[26px] shrink-0 rounded-full bg-white px-2 py-[7px]">
                                                         <div className="flex items-center gap-[2px]">
@@ -238,7 +239,7 @@ const HomePage = () => {
                                                         />
                                                     </div>
                                                 </div>
-                                            </a>
+                                            </Link>
                                         </SwiperSlide>
                                     )) : 'Belum Ada Data Home Service'}
                             </Swiper>
