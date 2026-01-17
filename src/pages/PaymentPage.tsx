@@ -266,7 +266,7 @@ const PaymentPage = () => {
                             </div>
                         </div>
 
-                        {/* STEP 2 - ACTIVE */}
+                        {/* STEP 2 - DONE */}
                         <div className="flex flex-1 flex-col items-center">
                             <div className="h-2 w-full rounded-full bg-white"></div>
                             <div className="-mt-[18px] flex flex-col items-center gap-1">
@@ -284,7 +284,9 @@ const PaymentPage = () => {
                                 <div className="flex h-[25px] w-[25px] items-center justify-center rounded-full bg-[#FFBFA9] text-xs font-bold text-[#C2836D]">
                                     3
                                 </div>
-                                <p className="text-xs font-semibold text-[#FFBFA9]">Delivery</p>
+                                <p className="text-xs font-semibold text-[#FFBFA9]">
+                                    Delivery
+                                </p>
                             </div>
                         </div>
 
