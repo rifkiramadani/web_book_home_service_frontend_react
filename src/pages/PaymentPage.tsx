@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import AccordionSection from '../components/AccordionSection';
-import type { BookingFormData, HomeService } from '../types/type';
+import type { BookingFormData, CartItem, HomeService } from '../types/type';
 import type z from 'zod';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import apiClient from '../services/apiServices';
 
 type FormData = {
     proof: File | null;
@@ -26,14 +27,62 @@ const PaymentPage = () => {
     const TAX_RATE = 0.11;
     const navigate = useNavigate();
 
-    if (loading) {
-        <p className='flex justify-center !mt-100'>Loading...</p>
+    const subTotal = serviceDetails.reduce((acc, service) => acc + service.price, 0);
+    const tax = subTotal * TAX_RATE;
+    const total = subTotal + tax;
+
+
+    // FUNGSI UNTUK FETCH API SERVICE DETAILS
+    const fetchServiceDetails = async (cartItems: CartItem[]) => {
+        try {
+            const fetchedDetails = await Promise.all(
+                cartItems.map(async (item) => {
+                    const response = await apiClient.get(`/homeService/${item.slug}`);
+                    return response.data.data
+                })
+            );
+            setServiceDetails(fetchedDetails);
+            setLoading(false);
+
+            const serviceIds = fetchedDetails.map((service) => service.id); //ambil id homeservice
+            setFormData((prevData) => ({
+                ...prevData,
+                home_service_ids: serviceIds,
+            }));
+        } catch (error) {
+            console.error("Error fetching service details:", error);
+            setError("Failed to fetch service details");
+            setLoading(false);
+        }
     }
 
-    if (error) {
-        return <p className="flex justify-center !mt-100">Error Loading: {error}</p>
-    }
+    // USE EFFECT UNTUK MENGAMBIL DATA DARI LOCAL STORAGE
+    useEffect(() => {
+        const cartData = localStorage.getItem("cart");
+        const savedBookingData = localStorage.getItem("bookingData");
 
+        if (savedBookingData) {
+            setBookingData(JSON.parse(savedBookingData) as BookingFormData);
+        }
+
+        if (!cartData || (cartData && JSON.parse(cartData).length === 0)) {
+            navigate('/');
+            return;
+        }
+
+        const cartItems = JSON.parse(cartData) as CartItem[];
+
+        fetchServiceDetails(cartItems);
+    }, [navigate]);
+
+    //HANDLE FILE INPUT PROOF CHANGES
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files ? e.target.files[0] : null;
+        setFormData((prev) => ({
+            ...prev,
+            proof: file,
+        }));
+    }
 
 
     const [isScrolled, setIsScrolled] = useState(false);
@@ -59,6 +108,15 @@ const PaymentPage = () => {
         }).format(value);
     }
 
+    if (loading) {
+        <p className='flex justify-center !mt-100'>Loading...</p>
+    }
+
+    if (error) {
+        return <p className="flex justify-center !mt-100">Error Loading: {error}</p>
+    }
+
+
     return (
         <div>
             <main className="relative min-h-screen mx-auto w-full max-w-[640px] bg-[#F4F5F7]">
@@ -80,9 +138,9 @@ const PaymentPage = () => {
                                 'relative flex h-[68px] items-center justify-center transition-all duration-300 bg-white rounded-[22px] shadow-[0px_12px_20px_0px_#0305041C]'
                             ) : ('relative flex h-[68px] items-center justify-center transition-all duration-300 ')}
                         >
-                            <a
+                            <Link
+                                to={`/booking`}
                                 id="BackA"
-                                href="booking-form.html"
                                 className={isScrolled ? (
                                     'absolute transition-all duration-300 left-[16px]'
                                 ) : ('absolute left-0 text-white transition-all duration-300')}
@@ -99,7 +157,7 @@ const PaymentPage = () => {
                                         className="h-[22px] w-[22px] shrink-0"
                                     />
                                 </div>
-                            </a>
+                            </Link>
                             <h2
                                 id="Title"
                                 className={isScrolled ? (
@@ -261,7 +319,7 @@ const PaymentPage = () => {
                                         />
                                         <p className="text-shujia-gray">Sub Total</p>
                                     </div>
-                                    <strong className="font-semibold">Rp 180.394.392</strong>
+                                    <strong className="font-semibold">{formatCurrency(subTotal)}</strong>
                                 </div>
                                 <hr className="border-shujia-graylight" />
                                 <div className="flex items-center justify-between">
@@ -273,7 +331,7 @@ const PaymentPage = () => {
                                         />
                                         <p className="text-shujia-gray">Tax 11%</p>
                                     </div>
-                                    <strong className="font-semibold">Rp 18.495.699</strong>
+                                    <strong className="font-semibold">{formatCurrency(tax)}</strong>
                                 </div>
                                 <hr className="border-shujia-graylight" />
                                 <div className="flex items-center justify-between">
@@ -310,14 +368,14 @@ const PaymentPage = () => {
                                         <p className="text-shujia-gray">Grand Total</p>
                                     </div>
                                     <strong className="text-[20px] font-bold leading-[30px] text-shujia-orange">
-                                        Rp 189.398.391
+                                        {formatCurrency(total)}
                                     </strong>
                                 </div>
                             </div>
                         </AccordionSection>
                     </div>
 
-                    <form action="booking-finished.html" className="mt-[20px]">
+                    <form onSubmit={handleSubmit} className="mt-[20px]">
                         <AccordionSection
                             title='Confirmation'
                             iconSrc='/assets/images/icons/bottom-booking-form.svg'
@@ -341,6 +399,7 @@ const PaymentPage = () => {
 
                                     {/* INPUT */}
                                     <input
+                                        onChange={handleFileChange}
                                         type="file"
                                         required
                                         className="absolute inset-0 cursor-pointer opacity-0"
